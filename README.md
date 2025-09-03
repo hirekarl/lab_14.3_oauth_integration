@@ -25,8 +25,14 @@ In your own words, explain how an attacker could perform a Cross-Site Request Fo
 
 #### 2. Redirect URI Attacks
 The article mentions that validating a `redirect_uri` by simply checking the domain or allowing subdomains is a common mistake. Describe a hypothetical scenario where a “leaky” `redirect_uri` validation (e.g., one that allows any path on a valid domain) could be exploited to steal an authorization code.
-> TODO
+> In a redirect URI attack, an attacker finds and exploits a weak validation scheme to steal an authorization code from a victim. The attacker can use the client app's vulnerability to trick a third-party service, e.g. GitHub, into sending the victim's authorization code back to a malicious URL on the client app's domain.
+>
+> The attacker makes a fake link that uses the app's vulnerable redirect URL as the `redirect_uri` in the OAuth flow. When the victim clicks this link, the third-party auth service sends the authorization code to the client app. The client app's open redirect then forwards the victim and the code to the attacker's server. The attacker can then grab the code from the URL and use it to access the victim's data.
+>
+> The best defense is to require an exact match for the `redirect_uri`, avoiding any wildcards or arbitrary paths.
 
 #### 3. User Experience vs. Security
 Adding a third-party login option like “Login with Google” is a significant user experience improvement. However, it also introduces complexity and new potential security risks. Based on the article and your own thoughts, describe one key trade-off a development team must consider when deciding to implement OAuth. (For example, think about the balance between convenience for the user and the responsibility of the application to protect user data).
-> TODO
+> Development teams must consider the responsibility they are taking on when offloading authentication to third-party apps. OAuth represents a convenient login flow for users, but it also presents several opportunities for vulnerabilities on the technical implementation side; any slip-ups with regard to the implementation of an OAuth login flow can explose an application to exploitation by experienced bad actors.
+>
+> In short, teams must become more fastidious, organized, and disciplined in their implementation than bad actors are clever and persistent. It's on the teams and their leadership to decide whether the user convenience OAuth provides for users is worth the time it will take to properly research and implement it on the back-end.
